@@ -3,9 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Merger</title>
+    <link href="merger.css" rel="stylesheet">
 </head>
 <body>
-    
-</body>
+    <div id="menu" class="container">
+        <h1>Merged Menu</h1>
+    </div>
+
+    <script>
+      let host = "http://localhost:8080";
+      let menuDiv = document.getElementById("menu");
+
+      displayTheMenu();
+
+      async function getTheMenu() {
+        let response = await fetch(host + "/merger");
+        let menu = await response.json();
+        return menu;
+      }
+
+      async function displayTheMenu() {
+        let menu = await getTheMenu();
+        for (let menuItem of menu) {
+          let div = document.createElement("div");
+          div.class = "menu-item";
+          div.innerHTML = `
+               <div class="menu-item">
+                <div class="item-name">${menuItem.name}</div>
+                <div class="item-description">${menuItem.description}</div>
+                <div class="item-price">${menuItem.price}</div>
+               </div>
+               `;
+          menuDiv.appendChild(div);
+        }
+      }
+    </script>
+  </body>
 </html>
